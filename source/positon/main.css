@@ -1,0 +1,45 @@
+/*
+ * Base
+ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; }
+
+.clearfix:after {
+  content: "";
+  clear: both;
+  display: block; }
+
+body {
+  font-size: 13px;
+  position: relative;
+  background-color: #F4F9FF; }
+
+/*
+ * Layout
+ */
+.l-index {
+  margin-left: 24px;
+  margin-right: 24px;
+  margin-bottom: 48px; }
+  .l-index ol {
+    padding: 16px;
+    text-align: center;
+    border: 1px solid black; }
+    .l-index ol li {
+      border: solid 1px red;
+      display: inline-block;
+      text-align: center;
+      list-style-position: inside; }
+    .l-index ol li:not(:last-child) {
+      margin-bottom: 1rem; }
+.inner {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 24px;
+  background-color: #F5F5F5; }
+  .inner .title {
+    margin-bottom: 16px;
+    text-align: center;
+    font-size: 1.0rem; }
