@@ -50,6 +50,19 @@
                 object-fit:fill;
             }
 
+            /* widthとmax-widthの違い*/
+            .wrapper2 {
+                max-width: 600px;
+                margin: 0 auto;
+                background-color: #cccccc;
+            }
+            .size-100 {
+                width: 100%;
+            }
+            .size-max100 {
+                max-width: 100%;
+            }
+
             /*トリミング-----------------------------*/
             .cover_left_top {
                 width: 100%;
@@ -118,6 +131,17 @@
             <p>Objectfit-fill</p>
             <div class="frame">
                 <img class="fill" src="image.jpg" />
+            </div>
+        </div>
+        <h1>widthとmax-widthの違い</h1>
+        <div class="wrapper2">
+            <p>width:100%</p>
+            <div class="frame">
+                <img class="size-100" src="image.jpg" />
+            </div>
+            <p>max-width:100%</p>
+            <div class="frame">
+                <img class="size-max100" src="image.jpg" />
             </div>
         </div>
         <h1>トリミング位置</h1>
