@@ -1,0 +1,41 @@
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>dtとddを一列に表示させる</title>
+        <style>
+            * {
+                box-sizing: border-box;
+            }
+            dl {
+                border: 1px solid black;
+                width: 600px;
+            }
+            dt {
+                float: left;
+                width: 20%;
+            }
+            dd {
+                float: left;
+                width: 80%;
+                margin-inline-start: 0px;
+            }
+            .clearfix::after {
+                content:"";
+                display:block;
+                clear:both;
+            }
+        </style>
+    </head>
+    <body>
+        <p>お知らせ</p>
+        <dl class="clearfix">
+            <dt>2021.12.04</dt>
+            <dd>開業しました!</dd>
+            <dt>2021.12.10</dt>
+            <dd>新規開店セールを行います!</dd>
+            <dt>2021.12.25</dt>
+            <dd>新規商品を入荷しました!</dd>
+        </dl>
+
+    </body>
+</html>
