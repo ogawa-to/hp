@@ -1,0 +1,24 @@
+@charset "utf-8";
+
+*, ::after, ::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; 
+}
+
+/* floatの解除 */
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: block; 
+}
+
+/* リストのマーカーを削除 */
+li {
+    text-decoration: none;
+}
+
+/* 装飾を削除 */
+a {
+    text-decoration: none;
+}
