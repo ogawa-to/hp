@@ -1,6 +1,6 @@
 @charset "utf-8";
 
-*, ::after, ::before {
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box; 
@@ -15,6 +15,7 @@
 
 /* リストのマーカーを削除 */
 li {
+    list-style-type: none;
     text-decoration: none;
 }
 
