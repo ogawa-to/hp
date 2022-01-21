@@ -1,0 +1,41 @@
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>css変数を使用する。</title>
+        <style>
+            * {
+                box-sizing: border-box;
+                padding: 0;
+                margin: 0;
+            }
+            /* root疑似要素はhtmlのルートを表す。
+               実質htmlタグと同じ。
+            */
+            :root {
+                --one-color: red;
+                --two-color: blue;
+                --three-height: 40px;
+            }
+            .first {
+                color: var(--one-color);
+                height: calc(var(--three-height) + 20px);
+            }
+            .second {
+                color: var(--one-color);
+                height: calc(var(--three-height) + 100px);
+            }
+            .third {
+                color: var(--two-color);
+                height: calc(var(--three-height) + 200px);
+            }
+            div {
+                border: 1px solid black;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="first">first</div>
+        <div class="second">first</div>
+        <div class="third">first</div>
+    </body>
+</html>
