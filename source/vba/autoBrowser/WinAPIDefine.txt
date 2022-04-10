@@ -1,0 +1,45 @@
+Option Explicit
+
+' ----------------------------------------------------------------------------------------
+' タイマー
+' ----------------------------------------------------------------------------------------
+Declare Sub Sleep Lib "kernel32" (ByVal ms As Long)
+
+' ----------------------------------------------------------------------------------------
+' マウス
+' ----------------------------------------------------------------------------------------
+Declare Function SetCursorPos Lib "user32" (ByVal x As Long, ByVal y As Long) As Long
+Declare Function GetCursorPos Lib "user32" (lpPoint As coord) As Long
+
+Declare Sub mouse_event Lib "user32" (ByVal flags As Long, _
+  Optional ByVal dx As Long = 0, _
+  Optional ByVal dy As Long = 0, _
+  Optional ByVal dwDate As Long = 0, _
+  Optional ByVal dwExtraInfo As Long = 0)
+
+' ----------------------------------------------------------------------------------------
+' キーボード
+' ----------------------------------------------------------------------------------------
+Declare Function GetAsyncKeyState Lib "user32" (ByVal key_id As Long) As Integer
+Declare Sub keybd_event Lib "user32" ( _
+    ByVal bVk As Byte, _
+    ByVal bScan As Byte, _
+    ByVal dwFlags As Long, _
+    ByVal dwExtraInfo As Long _
+    )
+
+' ウィンドウ
+Declare Function GetForegroundWindow Lib "user32" () As Long
+Declare Function MoveWindow Lib "user32" ( _
+    ByVal hwnd As Long, _
+    ByVal x As Long, ByVal y As Long, _
+    ByVal nWidth As Long, ByVal nHeight As Long, _
+    ByVal bRepaint As Long) As Long
+
+' ----------------------------------------------------------------------------------------
+' クリップボード
+' ----------------------------------------------------------------------------------------
+Public Declare Function OpenClipboard Lib "user32" (ByVal hwnd As Long) As Long
+Public Declare Function CloseClipboard Lib "user32" () As Long
+Public Declare Function EmptyClipboard Lib "user32" () As Long
+

@@ -1,0 +1,177 @@
+Option Explicit
+
+Const BASE_POS_COMMAND = "B15"
+
+' -----------------------------------------------------------------
+' キー情報を保存する。
+' -----------------------------------------------------------------
+Public Sub SaveKeyEvent()
+  Dim lkey As Long
+  Dim row As Long
+  Dim c As coord
+  Dim clickCount As Long
+  Dim sh As Worksheet
+  Dim rBaseCommand As Range
+  Set sh = ThisWorkbook.Worksheets("マウス操作")
+  Set rBaseCommand = sh.Range("b15")
+  rBaseCommand.Resize(1000, 3).Value = ""
+  row = 0
+  clickCount = 0
+  Call resetKeyInfo
+  ' どうしてか左クリックが入力した状態で
+  ' マクロが開始する場合があるので、一度ここでリセットする。
+  GetAsyncKeyState (vbKeyLButton)
+  
+  ' Escキーが押されるまで実行する。
+  Do While keyInputTime(vbKeyEscape) = 0
+    DoEvents
+    
+    Sleep (50) ' 0.05ms待機
+    Call updateKeyInfo
+    
+    ' マウスクリック
+    If (keyInputTime(vbKeyLButton) = 1) Then
+        Call GetCursorPos(c)
+        rBaseCommand.Offset(row, 0) = "CLICK"
+        rBaseCommand.Offset(row, 1) = c.x
+        rBaseCommand.Offset(row, 2) = c.y
+        clickCount = clickCount + 1
+        row = row + 1
+            
+    ' ページダウン
+    ElseIf (keyInputTime(vbKeyPageDown) = 1) Then
+        rBaseCommand.Offset(row, 0) = "PAGE_DOWN"
+        clickCount = clickCount + 1
+    End If
+  Loop
+  MsgBox ("記録完了")
+End Sub
+
+' -----------------------------------------------------------------
+' キー情報をリプレイする。
+' -----------------------------------------------------------------
+Private Sub replayKeyEvent()
+  Dim sh As Worksheet
+  Dim row As Long
+  Dim i As Long
+  Set sh = ThisWorkbook.Worksheets("マウス操作")
+  Dim clickCount As Long
+  Dim param As String
+  
+  Dim endRow As Long
+  Dim count As Long
+  endRow = sh.Cells(Rows.count, 2).End(xlUp).row
+  count = endRow - sh.Range(BASE_POS_COMMAND).row
+  
+  Dim rBaseCommand As Range
+  Set rBaseCommand = sh.Range(BASE_POS_COMMAND)
+  
+  For i = 0 To count
+    row = 2
+    clickCount = 0
+    ' 1回当たりの動作
+    Do While (sh.Cells(row, 1) <> "")
+    
+        Dim key As String
+        key = sh.Cells(row, 1)
+        ' クリック
+        If (key = "CLICK") Then
+            Call SetCursorPos(sh.Cells(row, 2), sh.Cells(row, 3))
+            Call mouse_event(2)
+            Call mouse_event(4)
+            SendKeys "^a"
+            param = sh.Cells(i + 1, 6 + clickCount)
+            SendKeys param
+            clickCount = clickCount + 1
+        ElseIf (key = "PAGE_DOWN") Then
+            SendKeys "^{end}"
+        End If
+        Call Sleep(100)
+        row = row + 1
+    Loop
+  Next
+End Sub
+
+
+
+' スクリーンショットを取得する。
+Private Sub SavePicture()
+  Dim x As Long
+  Dim y As Long
+  Dim beginTime As Double
+  Dim count As Long
+  count = 0
+  
+  Const KEY_DOWN As Long = 1
+  Const KEY_UP As Long = 2
+  
+  Call ClearClipboard
+  
+  ' Application.CutCopyMode = False
+    With ThisWorkbook.Worksheets("キャプチャ")
+      Call MouseLeftClick(444, 502)
+      keybd_event &HA4, 0, KEY_DOWN, 0
+      keybd_event vbKeySnapshot, 0, KEY_DOWN, 0
+      keybd_event vbKeySnapshot, 0, KEY_UP, 0
+      DoEvents
+      Sleep (10)
+      DoEvents
+      keybd_event &HA4, 0, KEY_UP, 0
+      
+      DoEvents
+      
+      beginTime = Timer
+      On Error GoTo TryAgain
+      .Cells(1, 1).PasteSpecial
+      
+      DoEvents
+      Sleep (300)
+      DoEvents
+      
+      ' トリム
+      Dim w, h As Double
+      Dim centerX, centerY As Long
+      Dim wRatio, hRatio As Double
+      Dim duplicate As Variant
+      centerX = 441
+      centerY = 503
+      Dim ScreenWidth, ScreenHeight As Double
+      ScreenWidth = 1280
+      ScreenHeight = 960
+      .Cells(1, 1).Select
+      Dim s As Shape
+      For Each s In .Shapes
+        s.LockAspectRatio = msoFalse
+        h = s.height
+        w = s.width
+        wRatio = (centerX / ScreenWidth)
+        hRatio = (centerY / ScreenHeight)
+        s.PictureFormat.CropTop = h * (hRatio - 0.1)
+        s.PictureFormat.CropBottom = h * (1 - hRatio - 0.1)
+        s.PictureFormat.CropLeft = w * (wRatio - 0.1)
+        s.PictureFormat.CropRight = w * (1 - wRatio - 0.1)
+        s.top = ThisWorkbook.Worksheets("キャプチャ2").Cells(3, 3).top
+        s.left = ThisWorkbook.Worksheets("キャプチャ2").Cells(3, 3).left
+        
+        s.CopyPicture
+        ThisWorkbook.Worksheets("キャプチャ2").Paste Range("C3")
+        s.Delete
+      Next
+      
+      Exit Sub
+      
+TryAgain:
+      Debug.Print Err.Number
+      
+      count = count + 1
+      Debug.Print ("トライ : " & Str(count))
+      DoEvents
+      Sleep (10)
+      DoEvents
+      ' 5秒待機してダメならあきらめる。
+      If (count = 500) Then
+        Exit Sub
+      End If
+      Resume
+    End With
+End Sub

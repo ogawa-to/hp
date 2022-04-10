@@ -12,12 +12,18 @@
                実質htmlタグと同じ。
             */
             :root {
+                /* --を先頭に付けて定義する。 */
                 --one-color: red;
-                --two-color: blue;
+                /* 分かりにくい変数 */
+                --two: green;
+                /* 末尾にプロパティ名を使用するとなんの
+                   変数か分かりやすい*/
                 --three-height: 40px;
             }
             .first {
+                /* varでcss変数を参照する。*/
                 color: var(--one-color);
+                /* calcで計算することもできる。*/
                 height: calc(var(--three-height) + 20px);
             }
             .second {
@@ -25,11 +31,13 @@
                 height: calc(var(--three-height) + 100px);
             }
             .third {
-                color: var(--two-color);
+                color: var(--two);
                 height: calc(var(--three-height) + 200px);
             }
             div {
                 border: 1px solid black;
+                font-size: 24px;
+                font-weight: bold;
             }
         </style>
     </head>

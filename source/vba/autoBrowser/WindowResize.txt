@@ -1,0 +1,20 @@
+Sub WindowResize()
+
+    Const MOUSE_CLICK_X As Long = 200
+    Const MOUSE_CLICK_Y As Long = 200
+
+    Dim result As Long
+    Dim hwnd As Long
+    ' クリックで最前面に。
+    Call MouseLeftClick(MOUSE_CLICK_X, MOUSE_CLICK_Y)
+    Sleep (100)
+    hwnd = GetForegroundWindow
+    With ThisWorkbook.Worksheets("マウス操作")
+        Dim left, top, width, height As Long
+        left = .Range("B3").Value
+        top = .Range("B3").Offset(1, 0).Value
+        width = .Range("B3").Offset(2, 0).Value
+        height = .Range("B3").Offset(3, 0).Value
+        result = MoveWindow(hwnd, left, top, width, height, True)
+    End With
+End Sub

@@ -1,0 +1,45 @@
+Option Explicit
+
+' 2次元座標 (マウス座標用)
+Type coord
+  x As Long
+  y As Long
+End Type
+
+Public Const KEY_KIND_MAX As Long = 255
+Public keyInputTime(KEY_KIND_MAX) As Long
+
+' マウスの左クリック
+Public Sub MouseLeftClick(x As Long, y As Long)
+    ' クリックで最前面に。
+    Call SetCursorPos(x, y)
+    mouse_event (2)
+    mouse_event (4)
+End Sub
+
+' キーの押下時間を初期化する。
+Public Sub resetKeyInfo()
+  Dim i As Long
+  For i = 0 To KEY_KIND_MAX
+      keyInputTime(i) = 0
+  Next
+End Sub
+
+' キーの押下時間を保存する。
+Public Sub updateKeyInfo()
+  Dim i As Long
+  For i = 0 To KEY_KIND_MAX
+      If (GetAsyncKeyState(i)) Then
+          keyInputTime(i) = keyInputTime(i) + 1
+      Else
+          keyInputTime(i) = 0
+      End If
+  Next
+End Sub
+
+' クリップボードをクリアする。
+Public Sub ClearClipboard()
+    OpenClipboard (0&)
+    EmptyClipboard
+    CloseClipboard
+End Sub
