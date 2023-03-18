@@ -1,0 +1,10 @@
+@charset "utf-8";
+.parent {
+    background-color:bisque;
+    padding: 8px;
+}
+
+.child {
+    background-color:cornflowerblue;
+    padding: 8px;
+}
