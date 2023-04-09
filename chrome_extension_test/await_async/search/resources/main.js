@@ -53,9 +53,9 @@ function addCharacterInfo(elem, id) {
     let button = document.createElement("input");
     button.type="button";
     button.name="edit";
+    button.value = "編集";
 
     button.setAttribute('onclick', 'showDetail(' + character["id"] + ')');
-    button.innerText = "編集";
     tr.appendChild(td_id);
     tr.appendChild(td_name);
     tr.appendChild(td_sex);
