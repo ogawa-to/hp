@@ -1,0 +1,14 @@
+{
+    "manifest_version": 3
+    , "version" : "1.0"
+    , "name": "テイルズキャラクターアップデート"
+    , "description": "キャラクター情報を更新する"
+    , "content_scripts":[
+        {
+            "matches": ["*://*/characterList.html"]
+            , "js": ["contents.js"]
+            , "run_at": "document_end"
+        }
+    ]
+    , "action": {}
+}

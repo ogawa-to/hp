@@ -1,0 +1,15 @@
+@charset "utf-8";
+
+.pattern {
+    margin:24px;
+}
+
+.parent {
+    background-color:bisque;
+    padding: 8px;
+}
+
+.child {
+    background-color:cornflowerblue;
+    padding: 8px;
+}
