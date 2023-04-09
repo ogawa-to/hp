@@ -50,7 +50,10 @@ function addCharacterInfo(elem, id) {
     td_series.innerText = character["series"];
     
     let td_button = document.createElement("td");
-    let button = document.createElement("button");
+    let button = document.createElement("input");
+    button.type="button";
+    button.name="edit";
+
     button.setAttribute('onclick', 'showDetail(' + character["id"] + ')');
     button.innerText = "編集";
     tr.appendChild(td_id);
